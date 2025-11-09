@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -23,6 +24,9 @@ public class MainApp extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Language Learning App");
 
+        primaryStage.setWidth(1200);
+        primaryStage.setHeight(900);
+
         createLoginScene();
         createMainMenuScene();
         createWordLessonScene();
@@ -35,85 +39,111 @@ public class MainApp extends Application {
     private void createLoginScene() {
         VBox root = new VBox(10);
         root.setPadding(new Insets(20));
+        root.setAlignment(Pos.CENTER); // Центрируем все элементы в VBox
 
         Label titleLabel = new Label("Language Learning App");
         titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
         Button signUpButton = new Button("Sign Up");
         signUpButton.setPrefWidth(200);
-        signUpButton.setOnAction(e -> showSignUpDialog());
+        signUpButton.setOnAction(e -> showSignUpMode());
 
         Button loginButton = new Button("Log In");
         loginButton.setPrefWidth(200);
-        loginButton.setOnAction(e -> showLoginDialog());
+        loginButton.setOnAction(e -> showLoginMode());
 
         root.getChildren().addAll(titleLabel, signUpButton, loginButton);
 
-        loginScene = new Scene(root, 300, 250);
+        loginScene = new Scene(root, 300, 250); // Размер сцены
     }
 
-    private void showSignUpDialog() {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle("Sign Up");
+    private void showSignUpMode() {
+        VBox root = new VBox(10);
+        root.setPadding(new Insets(20));
+        root.setAlignment(Pos.CENTER);
 
-        ButtonType signUpButtonType = new ButtonType("Sign Up", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(signUpButtonType, ButtonType.CANCEL);
-
+        Label usernameLabel = new Label("Username:");
         TextField usernameField = new TextField();
-        usernameField.setPromptText("Username");
+        usernameField.setPromptText("Enter Username");
+
+        Label passwordLabel = new Label("Password:");
         PasswordField passwordField = new PasswordField();
-        passwordField.setPromptText("Password");
+        passwordField.setPromptText("Enter Password");
 
-        dialog.getDialogPane().setContent(new VBox(10, usernameField, passwordField));
-
-        dialog.setResultConverter(btn -> {
-            if (btn == signUpButtonType) {
-                return usernameField.getText();
+        Button signUpButton = new Button("Sign Up");
+        signUpButton.setOnAction(e -> {
+            if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+                showAlert("Error", "Please enter both username and password.");
+                return;
             }
-            return null;
+
+            // Регистрируем нового пользователя
+            UserDatabase userDatabase = new UserDatabase();
+            userDatabase.registerUser(usernameField.getText(), passwordField.getText());
+            currentUser = usernameField.getText();
+            primaryStage.setScene(mainMenuScene); // Переход на главное меню
         });
 
-        dialog.showAndWait().ifPresent(username -> {
-            // Здесь можно добавить логику сохранения пользователя
-            currentUser = username;
-            primaryStage.setScene(mainMenuScene);
-        });
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(e -> primaryStage.setScene(loginScene)); // Возвращаемся к начальному экрану
+
+        root.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, signUpButton, cancelButton);
+
+        // Мы не меняем loginScene, а устанавливаем новую сцену для регистрации
+        Scene signUpScene = new Scene(root, 300, 250);
+        primaryStage.setScene(signUpScene);
     }
 
-    private void showLoginDialog() {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle("Log In");
+    private void showLoginMode() {
+        VBox root = new VBox(10);
+        root.setPadding(new Insets(20));
+        root.setAlignment(Pos.CENTER);
 
-        ButtonType loginButtonType = new ButtonType("Log In", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
-
+        Label usernameLabel = new Label("Username:");
         TextField usernameField = new TextField();
-        usernameField.setPromptText("Username");
+        usernameField.setPromptText("Enter Username");
+
+        Label passwordLabel = new Label("Password:");
         PasswordField passwordField = new PasswordField();
-        passwordField.setPromptText("Password-");
+        passwordField.setPromptText("Enter Password");
 
-        dialog.getDialogPane().setContent(new VBox(10, usernameField, passwordField));
-
-        dialog.setResultConverter(btn -> {
-            if (btn == loginButtonType) {
-                return usernameField.getText();
+        Button loginButton = new Button("Log In");
+        loginButton.setOnAction(e -> {
+            // Логика входа
+            UserDatabase userDatabase = new UserDatabase();
+            if (userDatabase.loginUser(usernameField.getText(), passwordField.getText())) {
+                currentUser = usernameField.getText();
+                primaryStage.setScene(mainMenuScene); // Переход на главное меню
+            } else {
+                showAlert("Error", "Invalid username or password.");
             }
-            return null;
         });
 
-        dialog.showAndWait().ifPresent(username -> {
-            // Здесь можно добавить логику проверки пользователя
-            currentUser = username;
-            primaryStage.setScene(mainMenuScene);
-        });
+        Button cancelButton = new Button("Cancel");
+        cancelButton.setOnAction(e -> primaryStage.setScene(loginScene)); // Возвращаемся к начальному экрану
+
+        root.getChildren().addAll(usernameLabel, usernameField, passwordLabel, passwordField, loginButton, cancelButton);
+
+        // Мы не меняем loginScene, а устанавливаем новую сцену для входа
+        Scene loginModeScene = new Scene(root, 300, 250);
+        primaryStage.setScene(loginModeScene);
     }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
 
 
     private void createMainMenuScene() {
         VBox root = new VBox(10);
         root.setPadding(new Insets(20));
-
-        Label welcomeLabel = new Label("Welcome, " + currentUser);
+        root.setAlignment(Pos.CENTER);
+        Label welcomeLabel = new Label("Welcome, " + (currentUser != null ? currentUser : "Guest"));
 
         Button studyWordsButton = new Button("Study New Words");
         studyWordsButton.setPrefWidth(200);
@@ -139,7 +169,7 @@ public class MainApp extends Application {
     private void createWordLessonScene() {
         VBox root = new VBox(10);
         root.setPadding(new Insets(20));
-
+        root.setAlignment(Pos.CENTER);
         Label questionLabel = new Label("¿Hola?");
         Label answerLabel = new Label("Hello");
 
@@ -177,7 +207,7 @@ public class MainApp extends Application {
     private void createGrammarTestScene() {
         VBox root = new VBox(10);
         root.setPadding(new Insets(20));
-
+        root.setAlignment(Pos.CENTER);
         Label questionLabel = new Label("The cat ___ on the mat.");
         Label answerLabel = new Label("is");
 
