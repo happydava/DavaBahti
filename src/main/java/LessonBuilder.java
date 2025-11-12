@@ -1,7 +1,7 @@
-public class SpanishLessonBuilder implements LessonModuleBuilder {
+public class LessonBuilder implements LessonModuleBuilder {
     private LessonModule module;
 
-    public SpanishLessonBuilder() {
+    public LessonBuilder() {
         this.module = new LessonModule();
     }
 

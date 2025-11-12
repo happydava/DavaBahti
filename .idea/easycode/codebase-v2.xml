@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="com.obiscr.chatgpt.settings.EasyCodeState">
+    <option name="projectFiles" value="$PROJECT_DIR$/src/main/java/LessonModule.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/LessonModuleBuilder.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/MainApp.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/ProgressObserver.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/ProgressSubject.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/ProgressTracker.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/SimpleSpacedRepetition.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/SpacedRepetitionAlgorithm.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/SpanishLessonBuilder.java;C:/Users/ryshy/IdeaProjects/DavaBahti/src/main/java/WordLesson.java;C:/Users/ryshy/IdeaProjects/DavaBahti/README.md" />
+  </component>
+</project>
