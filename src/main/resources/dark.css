@@ -1,0 +1,61 @@
+.root {
+    -fx-padding: 40;
+    -fx-alignment: center;
+    -fx-spacing: 20;
+    -fx-background-color: #121212;
+}
+
+.main-menu-root {
+    -fx-padding: 40;
+    -fx-alignment: center;
+    -fx-spacing: 25;
+    -fx-background-color: #181818;
+}
+
+.test-root {
+    -fx-padding: 40;
+    -fx-alignment: center;
+    -fx-spacing: 20;
+}
+
+.results-root {
+    -fx-padding: 40;
+    -fx-alignment: center;
+    -fx-spacing: 20;
+    -fx-background-color: #1e1e1e;
+}
+
+.label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #eeeeee;
+}
+
+.score-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.button {
+    -fx-font-size: 20px;
+    -fx-padding: 12 24;
+    -fx-background-radius: 10;
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 3);
+}
+
+.button:hover {
+    -fx-background-color: #3b3b3b;
+}
+
+.button:pressed {
+    -fx-background-color: #000000;
+}
+
+.image-view {
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.2), 20, 0.3, 0, 5);
+}
